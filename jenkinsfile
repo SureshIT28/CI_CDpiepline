@@ -3,7 +3,7 @@ pipeline {
 
     // Run pipeline on Jenkins Agent
     agent {
-        label 'jenkins agent'
+        label 'Jenkins-Agent'
     }
 
     // Use configured Java and Maven
