@@ -8,8 +8,8 @@ pipeline {
 
     // Use configured Java and Maven
     tools {
-        jdk 'java17'
-        maven 'maven'
+        jdk 'Java17'
+        maven 'Maven3'
     }
 
     // Pipeline stages
