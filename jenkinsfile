@@ -1,0 +1,86 @@
+
+pipeline {
+
+    // Run pipeline on Jenkins Agent
+    agent {
+        label 'jenkins agent'
+    }
+
+    // Use configured Java and Maven
+    tools {
+        jdk 'java17'
+        maven 'maven'
+    }
+
+    // Pipeline stages
+    stages {
+
+        // Stage 1: Clean workspace
+        stage('Cleanup Workspace') {
+            steps {
+                cleanWs()
+            }
+        }
+
+        // Stage 2: Checkout source code
+        stage('Checkout from GitHub') {
+            steps {
+                git branch: 'main',
+                    credentialsId: 'github',
+                    url: 'https://github.com/SureshIT28/CI_CDpiepline.git'
+            }
+        }
+
+        // Stage 3: Check Java version
+        stage('Java Version') {
+            steps {
+                sh 'java -version'
+            }
+        }
+
+        // Stage 4: Check Maven version
+        stage('Maven Version') {
+            steps {
+                sh 'mvn -version'
+            }
+        }
+
+        // Stage 5: Build application
+        stage('Build Application') {
+            steps {
+                sh 'mvn clean compile'
+            }
+        }
+
+        // Stage 6: Test application
+        stage('Test Application') {
+            steps {
+                sh 'mvn test'
+            }
+        }
+
+        // Stage 7: Package application
+        stage('Package Application') {
+            steps {
+                sh 'mvn package -DskipTests'
+            }
+        }
+
+    }
+
+    // Pipeline result
+    post {
+
+        success {
+            echo 'Pipeline executed successfully!'
+        }
+
+        failure {
+            echo 'Pipeline execution failed!'
+        }
+
+        always {
+            echo 'Pipeline execution completed!'
+        }
+    }
+}
